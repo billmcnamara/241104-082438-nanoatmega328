@@ -4,8 +4,10 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-#define LED_COUNT 64
 #define LED_PIN 13
+#define ONE_WIRE_BUS 4
+
+#define LED_COUNT 64
 #define MATRIX_WIDTH  8
 #define MATRIX_HEIGHT 8
 #define INTERVAL 10000  // 10 seconds in milliseconds
@@ -15,10 +17,10 @@
 //#define DHT_PIN 2
 //#define DHT_TYPE DHT11
 #define TIME_FOR_TEMP 3000 // 3 seconds to display temp
+void displayNumber(uint8_t number, uint32_t color, uint32_t color2, bool negative);
 
 WS2812FX ws2812fx = WS2812FX(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
-#define ONE_WIRE_BUS 4
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
 
@@ -65,7 +67,7 @@ const uint32_t colors[] = {0xFF0000, 0xFF7700, 0xFFFF00, 0x00FF00, 0xFFFFFF, 0xF
 const uint8_t numColors = sizeof(colors) / sizeof(colors[0]);
 
 void setup() {
-  // Serial.begin(9600);
+  Serial.begin(9600);
   sensors.begin();
   ws2812fx.init();
   ws2812fx.setBrightness(brightness_default);
@@ -90,23 +92,23 @@ void loop() {
     float temperature_prefered = 99.99;
     float temperature_X = sensors.getTempCByIndex(0);
     if (isnan(temperature_X)) {
-      //Serial.println("no temp X!");
+      Serial.println("no temp X!");
       temperature_X = 99;
     } else {
-      //Serial.print("Temperature_X: ");
-      //Serial.println(temperature_X);
+      Serial.print("Temperature_X: ");
+      Serial.println(temperature_X);
     }
 
     if (temperature_X >= 99) {
-      //Serial.println("Temperature_X >= 99");
+      Serial.println("Temperature_X >= 99");
       temperature_prefered = 99 ;
     } 
     if (temperature_X <= -99) {
-      //Serial.println("Temperature_X is < -99, default -99");
+      Serial.println("Temperature_X is < -99, default -99");
       temperature_prefered = -99 ;
     }
     if (temperature_X < 99 && temperature_X > -99 ) {
-        //Serial.println("Temperature_X is in range -99 -> 99 ");
+        Serial.println("Temperature_X is in range -99 -> 99 ");
         temperature_prefered = temperature_X;
     }
 
@@ -124,14 +126,14 @@ void loop() {
     negative = false;
     problem = false;
     
-    //Serial.print("Temperature is: ");
-    //Serial.println(temperature_prefered);
+    Serial.print("Temperature is: ");
+    Serial.println(temperature_prefered);
     if (temperature_prefered < 0) {
         negative = true;
         if (temperature_prefered == -99) {
           negative = true;
           problem = true;
-          //Serial.println("Problem getting Temperature_X.");
+          Serial.println("Problem getting Temperature_X.");
           color = ws2812fx.Color(255, 0 , 0);   // Red
           color2 = ws2812fx.Color(255 ,0 , 0);  // Red
         } else {
