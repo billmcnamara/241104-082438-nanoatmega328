@@ -17,3 +17,7 @@ For the temperature sensor I used a DS18B20 using the OneWire lib:
 (using https://www.amazon.fr/dp/B01LXQF9B5)
 
     #define ONE_WIRE_BUS 4
+
+# prototype #
+
+![cold out](relative%20img/image.jpg?raw=true "cold")
