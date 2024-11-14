@@ -20,4 +20,4 @@ For the temperature sensor I used a DS18B20 using the OneWire lib:
 
 # prototype #
 
-![cold out](relative%20img/image.jpg?raw=true "cold")
+![cold out](img/image.jpg?raw=true "cold")
